@@ -9,7 +9,9 @@ module.exports = {
 			'grayish-blue': '#67727E',
 			'light-grayish-blue': '#C5C6EF',
 			'moderate-blue': '#5357B6',
-			'very-light-gray': '#F5F6FA'
+			'very-light-gray': '#F5F6FA',
+      'light-gray': '#E9EBF0',
+      'white': '#ffffff',
 		},
 		fontFamily: {
 			Rubik: [ 'Rubik' ]
