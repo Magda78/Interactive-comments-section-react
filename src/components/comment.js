@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function Comment({id,name,createdAt,content,image}) {
+function Comment({ id, name, createdAt, content, image }) {
+	const [ count, setCount ] = useState(0);
+	const addLikeHandler = () => {
+		setCount(() => count + 1);
+	};
+	const minusLikeHandler = () => {
+		if(count > 0) {
+			setCount(() => count - 1);
+		}
+		else {
+			setCount(0)
+		}
+	};
+
 	return (
 		<div className="p-4 flex flex-col bg-component-background rounded-lg mb-4">
 			<div className="h-8 mb-5 rounded-full bg-red-500 flex flex-row justify-start items-center">
@@ -13,9 +26,13 @@ function Comment({id,name,createdAt,content,image}) {
 			<div className="text-grayish-blue text-base font-normal mb-4">{content}</div>
 			<div className=" flex flex-row justify-between">
 				<div className="bg-very-light-gray flex flex-row pt-2.5 pr-[35px] pb-2.5 pl-[35px] space-x-3.5 rounded-lg">
-					<button className="text-light-grayish-blue">+</button>
-					<p className="text-moderate-blue text-base font-medium">20</p>
-					<button className="text-light-grayish-blue">-</button>
+					<button className="text-light-grayish-blue" onClick={addLikeHandler}>
+						+
+					</button>
+					<p className="text-moderate-blue text-base font-medium">{count}</p>
+					<button className="text-light-grayish-blue" onClick={minusLikeHandler}>
+						-
+					</button>
 				</div>
 				<div className="flex flex-row items-center text-moderate-blue">
 					<svg width="14" height="13" xmlns="http://www.w3.org/2000/svg">
