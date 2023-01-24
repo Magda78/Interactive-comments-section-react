@@ -1,16 +1,16 @@
 import React from 'react';
 
-function Comment() {
+function Comment({id,name,createdAt,content,image}) {
 	return (
-		<div className="p-4 flex flex-col bg-component-background rounded-lg">
-			<div className="w-8 h-8 mb-5 rounded-full bg-red-500 flex flex-row justify-start items-center">
+		<div className="p-4 flex flex-col bg-component-background rounded-lg mb-4">
+			<div className="h-8 mb-5 rounded-full bg-red-500 flex flex-row justify-start items-center">
 				<div className="w-8 h-8 rounded-full mr-4">
-					<img src="" alt="" />
+					<img src={image} alt="avatar" />
 				</div>
-				<h1 className="m-8 text-dark-blue text-base font-medium">name</h1>
-				<h2 className="text-grayish-blue text-base font-normal">date</h2>
+				<h1 className="m-8 text-dark-blue text-base font-medium">{name}</h1>
+				<h2 className="text-grayish-blue text-base font-normal">{createdAt}</h2>
 			</div>
-			<div className="text-grayish-blue text-base font-normal mb-4">paragraph</div>
+			<div className="text-grayish-blue text-base font-normal mb-4">{content}</div>
 			<div className=" flex flex-row justify-between">
 				<div className="bg-very-light-gray flex flex-row pt-2.5 pr-[35px] pb-2.5 pl-[35px] space-x-3.5 rounded-lg">
 					<button className="text-light-grayish-blue">+</button>

@@ -4,18 +4,30 @@ import axios from 'axios';
 
 function SendComment() {
 	const [ user, setUser ] = useState([]);
+	const [img1, setImg1] = useState();
+	
 	useEffect(() => {
 		addUser();
 	}, []);
 	const addUser = () => {
+		const commentFirst = {
+
+		}
+		
 		const user = {
 			png: './img/avatars/image-juliusomo.png',
 			webp: './img/avatars/image-juliusomo.webp',
 			username: 'juliusomo'
 		};
 		setUser(user);
+		//const formData = new FormData();
+		//formData.append('file', /img/avatars/image-juliusomo.png)
+		//console.log(formData)
 		axios
-			.post('http://localhost:3001/user', user)
+			.post('http://localhost:3001/user',{
+				username: "juliusomo",
+				png: '1'
+			})
 			.then((response) => {
 				console.log(response.data);
 			})

@@ -1,13 +1,18 @@
 const express = require('express');
+const { default: mongoose } = require('mongoose');
 const router = express.Router();
 //const mongoose = require('mongoose')
 const User = require('../models/user');
+const multer = require('multer');
+const upload  = multer({dest: 'uploads/'});
 
-router.post('/', (req, res) => {
-	console.log('req body',req.body);
+router.post('/',upload.single('userImage'), (req, res) => {
+	req.file = req.body.png
+	console.log('req body',req.body, req.file);
 	const user = new User({
+		_id: new mongoose.Types.ObjectId(),
 		image: {
-			png: '2',
+			png: '.'.concat(req.body.png),
 			webp: '2'
 		},
 		username: req.body.username
