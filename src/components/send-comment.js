@@ -4,37 +4,34 @@ import axios from 'axios';
 
 function SendComment() {
 	const [ user, setUser ] = useState([]);
-	const [img1, setImg1] = useState();
 	
 	useEffect(() => {
-		addUser();
+		const user = addUser();
+		
 	}, []);
 	const addUser = () => {
-		const commentFirst = {
-
+		axios.get('http://localhost:3001/user').then((res) => {
+			console.log("dataaaaaa",res.data)
+			setUser(res.data)
+	})
+			.catch((err) => console.log(err))
 		}
-		
-		const user = {
-			png: './img/avatars/image-juliusomo.png',
-			webp: './img/avatars/image-juliusomo.webp',
-			username: 'juliusomo'
-		};
-		setUser(user);
+		//setUser(user);
 		//const formData = new FormData();
 		//formData.append('file', /img/avatars/image-juliusomo.png)
 		//console.log(formData)
-		axios
-			.post('http://localhost:3001/user',{
-				username: "juliusomo",
-				png: '1'
-			})
-			.then((response) => {
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+		//axios
+		//	.post('http://localhost:3001/user',{
+		//		username: "juliusomo",
+		//		png: '1'
+		//	})
+		//	.then((response) => {
+		//		console.log(response.data);
+		//	})
+		//	.catch((error) => {
+		//		console.log(error);
+		//	});
+	
 	return (
 		<div className="p-4 flex flex-col bg-component-background rounded-lg">
 			<form>
