@@ -21,7 +21,7 @@ function Comments() {
 				{console.log(data.comments)}
 			</div>
 			<div>
-			<SendComment />
+				<SendComment />
 			</div>
 		</div>
 	);

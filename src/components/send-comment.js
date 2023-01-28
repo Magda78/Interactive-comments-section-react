@@ -4,34 +4,37 @@ import axios from 'axios';
 
 function SendComment() {
 	const [ user, setUser ] = useState([]);
-	
+	const [ img1, setImg1 ] = useState();
+
 	useEffect(() => {
-		const user = addUser();
-		
+		addUser();
 	}, []);
-	const addUser = () => {
-		axios.get('http://localhost:3001/user').then((res) => {
-			console.log("dataaaaaa",res.data)
-			setUser(res.data)
-	})
-			.catch((err) => console.log(err))
-		}
-		//setUser(user);
-		//const formData = new FormData();
-		//formData.append('file', /img/avatars/image-juliusomo.png)
-		//console.log(formData)
-		//axios
-		//	.post('http://localhost:3001/user',{
-		//		username: "juliusomo",
-		//		png: '1'
-		//	})
-		//	.then((response) => {
-		//		console.log(response.data);
-		//	})
-		//	.catch((error) => {
-		//		console.log(error);
-		//	});
-	
+	const addUser = async () => {
+		let req = await axios.get('http://localhost:3001/user');
+		setUser(req.data);
+	};
+	//const user = {
+	////	png: './img/avatars/image-juliusomo.png',
+	//webp: './img/avatars/image-juliusomo.webp',
+	//username: 'juliusomo'
+	//};
+
+	//const formData = new FormData();
+	//formData.append('file', /img/avatars/image-juliusomo.png)
+	//console.log(formData)
+	//axios
+	//	.post('http://localhost:3001/user',{
+	//		username: "juliusomo",
+	//		png: '1'
+	//	})
+	//	.then((response) => {
+	//		console.log(response.data);
+	//	})
+	//	.catch((error) => {
+	//		console.log(error);
+	//	});
+	//};
+	console.log(user[0]?.['currentUser']['image']['png'])
 	return (
 		<div className="p-4 flex flex-col bg-component-background rounded-lg">
 			<form>
@@ -40,7 +43,7 @@ function SendComment() {
 				</textarea>
 				<div className="flex flex-row justify-between items-center">
 					<div className="w-8 h-8 rounded-full">
-						<img src={user.png} alt="user-avatar" />
+						<img src={``} alt="user-avatar" />
 					</div>
 					<button className="text-base text-white  leading-6 uppercase rounded-md bg-moderate-blue pt-3 pl-[30px] pr-[30px] pb-3">
 						Send
