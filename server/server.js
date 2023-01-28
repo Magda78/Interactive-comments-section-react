@@ -5,6 +5,7 @@ const cors = require('cors');
 const multer = require('multer');
 const User = require('./api/models/user');
 const bodyParser = require('body-parser');
+const  fs  = require('fs');
 const app = express();
 app.use(cors());
 const port = 3001;
@@ -34,8 +35,19 @@ mongoose.connect(mongoosePath, {
 });
 
 app.post('/user', upload.fields([ { name: 'png', maxCount: 1 }, { name: 'webp', maxCount: 1 } ]), (req, res) => {
-	const png = req.files['png'][0]['path'];
-	const webp = req.files['webp'][0]['path'];
+	const pngNoExtension = req.files['png'][0]['filename'];
+	const pngType = req.files['png'][0]['mimetype'].split('/')[1];
+	const png = req.files['png'][0]['filename'] + '.' + pngType;
+	const webpNoExtension = req.files['webp'][0]['filename'];
+	const webpType = req.files['webp'][0]['mimetype'].split('/')[1];
+	const webp = req.files['png'][0]['filename'] + '.' + webpType;
+	fs.rename(`./uploads/${webpNoExtension}`, `./uploads/${webp}`, (err) => {
+		console.log(err);
+	});
+	fs.rename(`./uploads/${pngNoExtension}`, `./uploads/${png}`, (err) => {
+		console.log(err);
+	});
+	console.log(pngNoExtension)
 	const user = new User({
 		_id: new mongoose.Types.ObjectId(),
 		username: req.body.username,
@@ -46,7 +58,7 @@ app.post('/user', upload.fields([ { name: 'png', maxCount: 1 }, { name: 'webp', 
 	user
 		.save()
 		.then((result) => {
-			console.log('resullt',result);
+			console.log('resullt', result);
 			res.status(201).json({
 				currentUser: {
 					_id: result._id,
