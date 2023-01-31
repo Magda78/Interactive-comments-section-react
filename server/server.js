@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const User = require('./api/models/user');
+const Comment = require('./api/models/comment')
 const bodyParser = require('body-parser');
 const  fs  = require('fs');
 const app = express();
@@ -84,10 +85,73 @@ app.get('/user', (req, res) => {
 			res.status(500).send(err);
 		} else {
 			res.status(201).send(data);
+			console.log(data)
 		}
 	});
 });
 
+
+app.post('/comment', upload.fields([ { name: 'png', maxCount: 1 }, { name: 'webp', maxCount: 1 } ]), (req, res) => {
+	const pngNoExtension = req.files['png'][0]['filename'];
+	const pngType = req.files['png'][0]['mimetype'].split('/')[1];
+	const png = req.files['png'][0]['filename'] + '.' + pngType;
+	const webpNoExtension = req.files['webp'][0]['filename'];
+	const webpType = req.files['webp'][0]['mimetype'].split('/')[1];
+	const webp = req.files['png'][0]['filename'] + '.' + webpType;
+	fs.rename(`./uploads/${webpNoExtension}`, `./uploads/${webp}`, (err) => {
+		console.log(err);
+	});
+	fs.rename(`./uploads/${pngNoExtension}`, `./uploads/${png}`, (err) => {
+		console.log(err);
+	});
+	console.log(pngNoExtension)
+	const comment = new Comment({
+		_id: mongoose.Types.ObjectId(),
+		content: req.body.content,
+		createdAt: req.body.createdAt,
+		score: req.body.score,
+		png: png,
+		webp: webp,
+		username: req.body.username,
+		//replies: Array
+	});
+	console.log('comment', comment);
+	comment
+		.save()
+		.then((result) => {
+			console.log('resullt', result);
+			res.status(201).json({
+					"id": result._id,
+					"content": result.content,
+					"createdAt": result.createdAt,
+					"score": result.score,
+					"user": {
+					  "image": { 
+						"png": result.png,
+						"webp": result.png
+					  },
+					  "username": result.username
+					},
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json({
+				error: err
+			});
+		});
+});
+
+
+app.get('/comment', (req, res) => {
+	Comment.find((err, data) => {
+		if (err) {
+			res.status(500).send(err);
+		} else {
+			res.status(201).send(data);
+		}
+	});
+});
 app.listen(port, () => {
 	console.log(`Server listening at http://localhost:${port}`);
 });
